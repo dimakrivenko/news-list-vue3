@@ -1,0 +1,21 @@
+{
+    "files": [],
+    "references": [
+        {
+            "path": "./tsconfig.node.json"
+        },
+        {
+            "path": "./tsconfig.app.json"
+        }
+    ],
+    "compilerOptions": {
+        "strict": true,
+
+        "noImplicitAny": true, // Запрещает неявный 'any'
+        "strictNullChecks": true, // Строгая проверка на null и undefined
+        "strictBindCallApply": true, // Строгая проверка методов call, apply, bind
+        "strictFunctionTypes": true, // Строгая проверка типов функций
+        "strictPropertyInitialization": true, // Строгая проверка инициализации свойств класса
+        "forceConsistentCasingInFileNames": true // Принуждает к регистрозависимости имен файлов
+    }
+}

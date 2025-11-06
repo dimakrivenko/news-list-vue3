@@ -1,0 +1,165 @@
+//-------------------------------
+//  Mixins
+//-------------------------------
+
+@use 'sass:map';
+
+// Media query
+$breakpoints: (
+  'sm': 576px,
+  'md': 768px,
+  'lg': 992px,
+  'xl': 1200px,
+  'xxl': 1500px,
+  'xxxl': 1850px,
+  'xxxxl': 2048px,
+);
+@mixin mq($width, $type: max) {
+  @if (map.has-key($breakpoints, $width)) {
+    $width: map.get($breakpoints, $width);
+    @if $type == min {
+      $width: $width;
+    } @else {
+      $width: $width - 1px;
+    }
+    @media only screen and (#{$type}-width: $width) {
+      @content;
+    }
+  }
+}
+
+// Для псевдо элементов
+@mixin pseudo($display: block, $pos: absolute, $content: '') {
+  content: $content;
+  display: $display;
+  position: $pos;
+}
+
+// Пропопции изображения
+@mixin ratio($x, $y, $pseudo: false) {
+  $padding: unquote(($y / $x) * 100 + '%');
+  @if $pseudo {
+    &:before {
+      @include pseudo($pos: relative);
+      width: 100%;
+      padding-top: $padding;
+    }
+  } @else {
+    padding-top: $padding;
+  }
+}
+
+// Placeholder
+@mixin placeholder {
+  &:placeholder {
+    @content;
+  }
+  &:-moz-placeholder {
+    @content;
+  }
+  &::-moz-placeholder {
+    @content;
+  }
+  &:-ms-input-placeholder {
+    @content;
+  }
+  &::-webkit-input-placeholder {
+    @content;
+  }
+}
+
+@mixin border-color-opacity($color, $opacity: 0.3) {
+  border-color: rgba($color, $opacity);
+}
+
+@mixin background-color-opacity($color, $opacity: 0.3) {
+  background-color: rgba($color, $opacity);
+}
+
+@mixin fill-color-opacity($color, $opacity: 0.3) {
+  fill: rgba($color, $opacity);
+}
+
+@mixin burger-icon($height, $width, $top, $bgc, $transition: 0.5) {
+  transition-duration: #{$transition}s;
+  position: absolute;
+  height: $height;
+  width: $width;
+  top: $top;
+  background-color: $bgc;
+}
+
+@mixin burger-icon-before($height, $width, $top, $bgc, $transition: 0.5) {
+  transition-duration: #{$transition}s;
+  position: absolute;
+  width: $width;
+  height: $height;
+  background-color: $bgc;
+  content: '';
+  top: $top;
+}
+
+@mixin burger-icon-after($height, $width, $top, $bgc, $transition: 0.5) {
+  transition-duration: #{$transition}s;
+  position: absolute;
+  width: $width;
+  height: $height;
+  background-color: $bgc;
+  content: '';
+  top: $top;
+}
+
+@mixin color-with-opacity($color, $opacity) {
+  $r: red($color);
+  $g: green($color);
+  $b: blue($color);
+  background-color: rgba($r, $g, $b, $opacity);
+}
+
+$auth-breakpoints: (
+  'xs': 360px,
+  'sm': 480px,
+  'md': 640px,
+  'ls': 760px,
+  'lg': 960px,
+  'xl': 1200px,
+  'xxl': 1850px,
+  'xxxl': 2048px,
+);
+
+@mixin mqAuth($width, $type: max) {
+  @if map_has_key($auth-breakpoints, $width) {
+    $width: map_get($auth-breakpoints, $width);
+    @if $type == min {
+      $width: $width;
+    } @else {
+      $width: $width - 1px;
+    }
+    @media only screen and (#{$type}-width: $width) {
+      @content;
+    }
+  }
+}
+
+@mixin shake($distance: 10px, $transition: 0.5s) {
+  @keyframes shake {
+    0% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-#{$distance});
+    }
+    50% {
+      transform: translateX(#{$distance});
+    }
+    75% {
+      transform: translateX(#{$distance});
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  @content;
+  animation: shake $transition;
+}
