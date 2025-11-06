@@ -68,10 +68,8 @@
 
     // 🆕 Вычисляем Z-Index для всего компонента <Dialog> (для бэкдропа)
     const dialogZIndex = computed(() => {
-        // Если модальное окно не найдено или закрыто, z-index не важен
         if (currentModalIndex.value === -1) return null;
 
-        // Z-Index = База + (Индекс в стеке * Шаг)
         return BASE_Z_INDEX + currentModalIndex.value * Z_INDEX_STEP;
     });
 
