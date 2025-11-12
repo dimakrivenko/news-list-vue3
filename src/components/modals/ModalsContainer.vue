@@ -12,6 +12,9 @@
         "modal-confirm-delete": defineAsyncComponent(
             () => import("@/components/modals/ModalConfirmDelete.vue"),
         ),
+        "modal-post-info": defineAsyncComponent(
+            () => import("@/components/modals/ModalPostInfo.vue"),
+        ),
     };
 
     const modalStack = computed(() => modalStore.modalStack);

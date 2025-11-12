@@ -41,7 +41,7 @@
             <NewsListItem v-for="(data, i) in listData" :key="i" :item-data="data" />
         </div>
     </div>
-    <div v-else>
+    <div v-else-if="!isLoading">
         <p class="text-2xl text-center py-10">Topics not found</p>
     </div>
     <div ref="observerElement" class="observer-fetch-new"></div>
