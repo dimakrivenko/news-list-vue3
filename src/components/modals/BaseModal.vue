@@ -33,7 +33,6 @@
         console.log(event);
 
         if (event) {
-            // Если event существует, это клик по кнопке, и его нужно остановить
             event.stopPropagation();
             console.log(`Клик по кнопке ${props.name}. Всплытие остановлено.`);
         }
@@ -66,24 +65,20 @@
         return modalStore.modalStack.findIndex((m) => m.name === props.name);
     });
 
-    // 🆕 Вычисляем Z-Index для всего компонента <Dialog> (для бэкдропа)
     const dialogZIndex = computed(() => {
         if (currentModalIndex.value === -1) return null;
 
         return BASE_Z_INDEX + currentModalIndex.value * Z_INDEX_STEP;
     });
 
-    // 🆕 Вычисляем Z-Index для контента <DialogPanel> (чтобы он был поверх своего бэкдропа)
     const contentZIndex = computed(() => {
         if (dialogZIndex.value === null) return null;
-        // Контент должен быть на 1 выше своего бэкдропа
         return dialogZIndex.value + 1;
     });
 
     watch(
         () => props.name,
         (newName, oldName) => {
-            // Этот лог должен срабатывать при каждом открытии модального окна с новым именем
             console.log(`BaseModal props.name changed: ${oldName} -> ${newName}`);
         },
         { immediate: true },

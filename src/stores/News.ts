@@ -33,6 +33,17 @@ export const useNewsStore = defineStore("news", () => {
                         list.value = response?.articles;
                     }
                 }
+
+				if (localStorage.getItem('userPostsList')) {
+					const localList = JSON.parse(localStorage.getItem('userPostsList'))
+
+					console.log(localList);
+
+
+					list.value = [...localList, ...list.value]
+				}
+
+
             }
         } catch (e) {
             error.value = e.message;
@@ -44,6 +55,26 @@ export const useNewsStore = defineStore("news", () => {
             isLoading.value = false;
         }
     };
+
+    const addPostToList = (data: any) => {
+		console.log("addPostToList 2233333");
+		console.log(data);
+
+		if (typeof data === "object") {
+			list.value.unshift(data);
+
+			if (localStorage.getItem('userPostsList')) {
+				const localList = JSON.parse(localStorage.getItem('userPostsList'))
+				localList.unshift(data)
+				localStorage.setItem('userPostsList', JSON.stringify(localList))
+			} else {
+				localStorage.setItem('userPostsList', JSON.stringify([data]));
+			}
+
+			return true;
+		}
+
+	};
 
     const setCurrentQuery = (query: string) => {
         if (typeof query === "string" && query !== "") {
@@ -70,59 +101,58 @@ export const useNewsStore = defineStore("news", () => {
                     title.value = val;
                 },
             },
-            // Расскоментить !!!
-            // {
-            //     key: "description",
-            //     type: "text",
-            //     label: "Краткое описание статьи",
-            //     value: "",
-            //     rules: Yup.string().required(),
-            //     callback: (val: string) => {
-            //         const description = modalCreateNewsFormFields.value.find(
-            //             (item) => item.key === "description",
-            //         );
-            //         description.value = val;
-            //     },
-            // },
-            // {
-            //     key: "content",
-            //     type: "textarea",
-            //     label: "Содержание статьи",
-            //     value: "",
-            //     rules: Yup.string()
-            //         .required("Напиши текст статьи")
-            //         .min(10, "Слишком коротко! Требуется минимум 10 символов."),
-            //     callback: (val: string) => {
-            //         const content = modalCreateNewsFormFields.value.find(
-            //             (item) => item.key === "content",
-            //         );
-            //         content.value = val;
-            //     },
-            // },
-            // {
-            //     key: "type",
-            //     type: "select",
-            //     label: "Тип статьи",
-            //     value: null,
-            //     selectedList: [
-            //         {
-            //             name: "Обычная",
-            //             value: "regular",
-            //         },
-            //         {
-            //             name: "Платная",
-            //             value: "pay",
-            //         },
-            //     ],
-            //     rules: Yup.object().required("Выберите тип статьи!"),
-            //     // rules: Yup.array().min(1, "Выберите хотя бы один тип статьи!"), // Если multiple: true
-            //     callback: (val: object) => {
-            //         const type = modalCreateNewsFormFields.value.find(
-            //             (item) => item.key === "type",
-            //         );
-            //         type.value = val;
-            //     },
-            // },
+            {
+                key: "description",
+                type: "text",
+                label: "Краткое описание статьи",
+                value: "",
+                rules: Yup.string().required(),
+                callback: (val: string) => {
+                    const description = modalCreateNewsFormFields.value.find(
+                        (item) => item.key === "description",
+                    );
+                    description.value = val;
+                },
+            },
+            {
+                key: "content",
+                type: "textarea",
+                label: "Содержание статьи",
+                value: "",
+                rules: Yup.string()
+                    .required("Напиши текст статьи")
+                    .min(10, "Слишком коротко! Требуется минимум 10 символов."),
+                callback: (val: string) => {
+                    const content = modalCreateNewsFormFields.value.find(
+                        (item) => item.key === "content",
+                    );
+                    content.value = val;
+                },
+            },
+            {
+                key: "type",
+                type: "select",
+                label: "Тип статьи",
+                value: null,
+                selectedList: [
+                    {
+                        name: "Обычная",
+                        value: "regular",
+                    },
+                    {
+                        name: "Платная",
+                        value: "pay",
+                    },
+                ],
+                rules: Yup.object().required("Выберите тип статьи!"),
+                // rules: Yup.array().min(1, "Выберите хотя бы один тип статьи!"), // Если multiple: true
+                callback: (val: object) => {
+                    const type = modalCreateNewsFormFields.value.find(
+                        (item) => item.key === "type",
+                    );
+                    type.value = val;
+                },
+            },
         ];
 
         modalCreateNewsFormFields.value = fields;
@@ -137,6 +167,7 @@ export const useNewsStore = defineStore("news", () => {
         isLoading,
         error,
         getList,
+		addPostToList,
         setCurrentQuery,
         initCreateNewsFields,
         modalCreateNewsFormFields,

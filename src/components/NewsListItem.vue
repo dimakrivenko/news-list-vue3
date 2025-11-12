@@ -2,6 +2,9 @@
     // import { computed, onMounted, ref, Ref, watch } from "vue";
     import type { Article } from "@/types/News";
     import { helpers } from "@/utils/helpers";
+    import { useModalStore } from "@/stores/Modal";
+
+    const modalStore = useModalStore();
 
     // Props
     const { itemData } = defineProps<{
@@ -18,11 +21,31 @@
     // const title = computed(() => {
     //     return "Title test 11";
     // });
+
+    const openPostHandler = (url) => {
+        if (url) {
+            console.log("openPostHandler 111");
+
+            console.log(url);
+
+            modalStore.openModal(
+                "modal-post-info",
+                {
+                    url: url,
+                    callback: (confirmedData: boolean) => {},
+                },
+                {
+                    modalClass: "min-w-2xl",
+                },
+            );
+        }
+    };
 </script>
 
 <template>
     <article
-        class="flex max-w-xl flex-col items-start justify-between shadow p-5 transition-shadow rounded hover:shadow-2xl cursor-pointer">
+        class="flex max-w-xl flex-col items-start justify-between shadow p-5 transition-shadow rounded hover:shadow-2xl cursor-pointer"
+        @click="openPostHandler(itemData.url)">
         <div class="flex items-center gap-x-4 text-xs">
             <!-- <time datetime="2020-03-16" class="text-gray-500">Mar 16, 2020</time> -->
             <time :datetime="helpers.formatDate(itemData?.publishedAt)" class="text-gray-500"

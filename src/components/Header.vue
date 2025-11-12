@@ -23,10 +23,10 @@
                 btnCancel: {
                     name: "Отмена",
                 },
-                callback: (confirmed: any) => {
+                callback: (addPostData: any) => {
                     // const postData = confirmed;
 
-                    if (typeof confirmed === "object") {
+                    if (typeof addPostData === "object") {
                         modalStore.openModal(
                             "modal-confirm-delete",
                             {
@@ -39,14 +39,30 @@
                                 btnSuccess: {
                                     name: "Разместить",
                                 },
-                                callback: (confirmed: boolean) => {
-                                    if (confirmed) {
+                                callback: (confirmedData: boolean) => {
+                                    if (confirmedData) {
                                         // Выполняется только после нажатия кнопки "Удалить" в модальном окне
                                         console.log(`✅ Пользователь подтвердил создание поста!!`);
-                                        // console.log(postData);
+                                        // console.log(addPostData);
 
-                                        // modalStore.closeModal("modal-confirm-delete");
-                                        // modalStore.closeModal("modal-form");
+
+										const newPostData = {
+											author: "LocalStorage",
+											content: addPostData.content,
+											description: addPostData.description,
+											publishedAt: new Date().toISOString(),
+											source: {id: null, name: "Local add"},
+											title: addPostData.title,
+											url: "#",
+											urlToImage: "https://gizmodo.com/app/uploads/2024/04/0ddbd47a359dbefbb14c16d0ffe99a95.jpg",
+										}
+
+										const result = newsStore.addPostToList(newPostData);
+
+										if (result) {
+											modalStore.closeModal("modal-confirm-delete");
+                                        	modalStore.closeModal("modal-form");
+										}
                                     } else {
                                         console.log(`❌ Создание поста отменено пользователем.`);
                                     }
