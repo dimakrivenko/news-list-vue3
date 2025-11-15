@@ -15,7 +15,7 @@
         });
     };
 
-    const searchHandler = (query) => {
+    const searchHandler = (query: string) => {
         newsStore.setCurrentQuery(query);
 
         newsStore.getList({

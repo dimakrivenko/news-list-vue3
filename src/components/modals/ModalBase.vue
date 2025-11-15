@@ -2,10 +2,13 @@
     <VueFinalModal
         :model-value="modalStore.isModalOpen(props.name)"
         :key="props.name"
-        :class="'fixed inset-0 overflow-y-auto grid min-h-full items-center justify-center p-4'"
+        :class="[
+            'fixed inset-0 overflow-y-auto flex items-start justify-center min-h-screen pl-4 pr-4 pt-10 pb-10',
+            props.modalClass,
+        ]"
         :content-class="[
             'vfm-modal-content relative max-w-4xl transform overflow-hidden rounded-lg bg-white px-8 py-6 text-left align-middle shadow-2xl dark:bg-gray-800',
-            props.modalClass,
+			props.modalContentClass,
         ]"
         :content-style="[props.modalStyle]"
         :overlay-class="['!fixed']"
@@ -40,17 +43,15 @@
 </template>
 
 <script setup lang="ts">
-    import { VueFinalModal } from "vue-final-modal"; // <-- Новый импорт
-    import { computed, watch } from "vue";
+    import { VueFinalModal } from "vue-final-modal";
+    import { computed } from "vue";
     import { useModalStore } from "@/stores/Modal";
-
-    // --- Props и Глобальные Константы (Оставляем как было) ---
 
     interface BaseModalProps {
         name: string;
         modalClass?: string;
+        modalContentClass?: string;
         modalStyle?: string;
-        // Добавлены props для переходов, чтобы можно было их кастомизировать, как в Headless UI
         overlayTransition?: string;
         contentTransition?: string;
     }
@@ -61,8 +62,6 @@
     const emit = defineEmits<{
         (e: "close"): void;
     }>();
-
-    // --- Логика Pinia (Оставляем как было) ---
 
     const payload = computed(() => modalStore.getPayload(props.name));
 
@@ -76,73 +75,53 @@
         // modalStore.closeModal(props.name); // Вызываем закрытие по имени
     };
 
-    // Обработка v-model:show от VueFinalModal (необходим для корректной работы)
     const handleVfmUpdate = (value: boolean) => {
         if (!value && modalStore.isModalOpen(props.name)) {
             closeHandler();
         }
     };
-
-    // watch(
-    //     () => props.name,
-    //     (newName, oldName) => {
-    //         console.log(`BaseModal props.name changed: ${oldName} -> ${newName}`);
-    //     },
-    //     { immediate: true },
-    // );
 </script>
 
 <style lang="scss">
     .vfm-fade-enter-active,
     .vfm-fade-leave-active {
-		transition: .3s ease-out;
-        // @apply ease-out duration-300; // Длительность перехода
+        transition: 0.3s ease-out;
     }
     .vfm-fade-enter-from,
     .vfm-fade-leave-to {
-		opacity: 0;
-        // @apply opacity-0; // Прозрачность (для оверлея)
+        opacity: 0;
     }
 
-    // 2. Адаптация перехода контента (SCALE + FADE)
     .vfm-scale-fade-enter-active,
     .vfm-scale-fade-leave-active {
-		transition: .3s ease-out;
-        // @apply ease-out duration-300; // Длительность перехода
+        transition: 0.3s ease-out;
     }
     .vfm-scale-fade-enter-from,
     .vfm-scale-fade-leave-to {
-		opacity: 0;
-		transform: scale(0.95);
-        // Эффект Headless UI: масштабирование (scale-95) и прозрачность (opacity-0)
-        // @apply opacity-0 scale-95;
+        opacity: 0;
+        transform: scale(0.95);
     }
     .vfm--fixed {
-        // Fix фона в модалках(не стандартный подход)
-
-		&:before {
-			content: "";
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background-color: rgba(40, 40, 40, 0.5);
-        	backdrop-filter: blur(3px);
-			// opacity: 0;
-			transition: .15s ease-out;
-			// @apply transition-opacity ease-out duration-300;
-		}
+        &:before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(40, 40, 40, 0.5);
+            backdrop-filter: blur(3px);
+            // opacity: 0;
+            transition: 0.15s ease-out;
+        }
         .vfm__overlay {
             display: none !important;
         }
-		&.is-overlay {
-			&:before {
-				opacity: 1;
-			}
-		}
-    }
-    .vfm-container {
+        &.is-overlay {
+            &:before {
+                opacity: 1;
+            }
+        }
     }
     .vfm-modal-content {
         position: relative;

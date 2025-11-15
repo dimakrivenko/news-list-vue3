@@ -20,7 +20,7 @@ export const useModalStore = defineStore("modal", () => {
 
     const topModalName = computed(() => {
         return modalStack.value.length > 0
-            ? modalStack.value[modalStack.value.length - 1].name
+            ? modalStack.value[modalStack.value.length - 1]?.name
             : null;
     });
 

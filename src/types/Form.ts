@@ -1,4 +1,4 @@
-interface SelectValueMultiple {
+export interface SelectValueMultiple {
     name: string;
     value: string;
 }

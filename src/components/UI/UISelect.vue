@@ -1,5 +1,6 @@
 <script setup lang="ts">
     import { ref, defineProps, defineEmits, useAttrs, watch } from "vue";
+	import type { SelectValueMultiple } from "@/types/Form";
     import Multiselect from "vue-multiselect";
     import "vue-multiselect/dist/vue-multiselect.css";
 
@@ -9,12 +10,11 @@
 
     const {
         fieldKey,
-        type,
         label,
         modelValue,
         multiple = false,
         taggable = false,
-        placeholder = "Выберите значение",
+        placeholder = "Выбрать",
         closeOnSelect = true,
         searchable = false,
         allowEmpty = true,
@@ -23,8 +23,8 @@
         fieldKey: string;
         type: string;
         label: string;
-        modelValue: any;
-        options: Array<any>;
+        modelValue: SelectValueMultiple;
+        options: Array<SelectValueMultiple>;
         placeholder?: string;
         multiple?: boolean;
         taggable?: boolean;
@@ -35,7 +35,7 @@
         callback: (payload: any) => void;
     }>();
 
-    const selectedValue = ref(null);
+    const selectedValue = ref(modelValue);
 
     watch(selectedValue, (newVal) => {
         emit("update:modelValue", newVal);
@@ -46,11 +46,12 @@
     });
 
     // const updateSelected = (newValue: any) => {
-    //     emit("update:modelValue", newValue);
+		//
+        // emit("update:modelValue", newValue);
 
-    //     if (callback) {
-    //         callback(newValue);
-    //     }
+        // if (callback) {
+        //     callback(newValue);
+        // }
     // };
 </script>
 
@@ -72,7 +73,6 @@
             :allow-empty="allowEmpty"
             :preselect-first="false"
             label="name"
-            placeholder="Выбрать"
             track-by="value">
         </Multiselect>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { ref, Ref, onMounted } from "vue";
+    import { onMounted } from "vue";
     import UIButton from "@/components/UI/UIButton.vue";
     import FormBase from "@/components/FormBase.vue";
 
@@ -9,16 +9,16 @@
     const modalStore = useModalStore(),
         newsStore = useNewsStore();
 
-    const handleFormSubmit = (values) => {
+    const handleFormSubmit = () => {
         console.log("handleSubmit 22");
-        console.log(values);
+        // console.log(values);
     };
-    const handleFormCancel = (e) => {
+    const handleFormCancel = () => {
         console.log("handleCancel 22");
-        console.log(e);
+        // console.log(e);
     };
 
-    const openModalConfirm = (e) => {
+    const openModalConfirm = () => {
         // Модальное окно подтверждения
         modalStore.openModal(
             "modal-confirm-delete",
@@ -44,7 +44,7 @@
                             btnCancel: {
                                 name: "Отмена",
                             },
-                            callback: (confirmed: any) => {},
+                            // callback: (confirmed: any) => {},
                         });
                     } else {
                         console.log(`❌ Создание поста отменено пользователем.`);

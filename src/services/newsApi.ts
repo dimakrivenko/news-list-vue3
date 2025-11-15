@@ -1,11 +1,11 @@
 import apiClient from "@/services/apiClient";
 
-export async function fetchNews({ page = 1, query = "all", pageSize = 9 } = {}) {
+export async function fetchNews({ page = 1, query = "all", pageSize = 9, sortBy = "relevancy" } = {}) {
     const queryParams = {
         q: query,
         page: page,
         pageSize: pageSize,
-        sortBy: "popularity", // relevancy, popularity, publishedAt.
+        sortBy: sortBy, // relevancy, popularity, publishedAt.
     };
 
     try {
@@ -18,7 +18,7 @@ export async function fetchNews({ page = 1, query = "all", pageSize = 9 } = {}) 
 
             throw new Error("Неверный формат данных от API.");
         }
-    } catch (e) {
+    } catch (e: any) {
         console.error("Ошибка в News API Layer:");
         throw e.response?.data;
     }

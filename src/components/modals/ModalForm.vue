@@ -1,10 +1,7 @@
 <script setup lang="ts">
     import { computed } from "vue";
-    import { DialogTitle } from "@headlessui/vue";
-
     import type { FormField } from "@/types/Form";
     import { useModalStore } from "@/stores/Modal";
-    // import BaseModal from "@/components/modals/BaseModal.vue";
     import ModalBase from "@/components/modals/ModalBase.vue";
     import FormBase from "@/components/FormBase.vue";
 
@@ -44,18 +41,16 @@
             };
         });
 
-    const handleSubmit = (values) => {
-        console.log("handleSubmit 2222");
+    const handleSubmit = (values: any) => {
+		console.log("values q32132");
+		console.log(values);
 
         if (payload.value && payload.value.callback && Object.keys(values).length > 0) {
             payload.value.callback(values);
         }
     };
 
-    const handleCancel = (e) => {
-        console.log("modal form handleCancel");
-        console.log(e);
-
+    const handleCancel = () => {
         const currentPayload = payload.value;
         if (currentPayload && currentPayload.callback) {
             currentPayload.callback(false);
@@ -64,8 +59,6 @@
         if (modalStore.isModalOpen(modalName)) {
             modalStore.closeModalTop();
         }
-
-        // modalStore.closeModal(modalName);
     };
 </script>
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { onMounted } from "vue";
     import UIButton from "@/components/UI/UIButton.vue";
-
+	import type { Article } from "@/types/News";
     import { useModalStore } from "@/stores/Modal";
     import { useNewsStore } from "@/stores/News";
 
@@ -20,14 +20,16 @@
                 btnCancel: {
                     name: "Отмена",
                 },
-                callback: (addPostData: any) => {
+                callback: (addPostData: Article) => {
+					console.log(addPostData);
+
                     if (typeof addPostData === "object") {
                         confirmModalHandler(addPostData);
                     }
                 },
             },
             {
-                modalClass: "min-w-xl",
+                modalContentClass: "min-w-xl",
             },
         );
     };
@@ -74,7 +76,8 @@
                 },
             },
             {
-                modalClass: "min-w-md",
+                modalClass: "!items-center",
+                modalContentClass: "min-w-md",
             },
         );
     };

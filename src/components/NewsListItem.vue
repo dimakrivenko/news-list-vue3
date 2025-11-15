@@ -35,7 +35,7 @@
                     callback: (confirmedData: boolean) => {},
                 },
                 {
-                    modalClass: "min-w-2xl",
+                    modalClass: "min-w-5xl min-h-full",
                 },
             );
         }
