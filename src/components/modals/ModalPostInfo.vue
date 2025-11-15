@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { computed } from "vue";
     import { useModalStore } from "@/stores/Modal";
-    import BaseModal from "@/components/modals/BaseModal.vue";
+    import ModalBase from "@/components/modals/ModalBase.vue";
 
     const modalStore = useModalStore();
     const modalName = "modal-post-info";
@@ -15,10 +15,23 @@
     });
 
     const url = computed<string>(() => payload.value?.url || "");
+
+	const handleCancel = () => {
+        console.log("modal confirm handleCancel test3");
+
+        const currentPayload = payload.value;
+        if (currentPayload && currentPayload.callback) {
+            currentPayload.callback(false);
+        }
+        if (modalStore.isModalOpen(modalName)) {
+            modalStore.closeModalTop();
+        }
+        // modalStore.closeModal(modalName);
+    };
 </script>
 
 <template>
-    <BaseModal :name="modalName" panel-class="max-w-md" @close="handleCancel">
+    <ModalBase :name="modalName" panel-class="max-w-md" @close="handleCancel">
         <template #default="{}">
             <div>
                 <div class="post-content pt-8 pb-3">
@@ -26,5 +39,5 @@
                 </div>
             </div>
         </template>
-    </BaseModal>
+    </ModalBase>
 </template>

@@ -1,9 +1,6 @@
 <script setup lang="ts">
-    import { ref, Ref, onMounted } from "vue";
+    import { onMounted } from "vue";
     import UIButton from "@/components/UI/UIButton.vue";
-    // import BaseModal from "@/components/modals/BaseModal.vue";
-    // import ModalForm from "@/components/modals/ModalForm.vue";
-    // import ModalConfirmDelete from "@/components/modals/ModalConfirmDelete.vue";
 
     import { useModalStore } from "@/stores/Modal";
     import { useNewsStore } from "@/stores/News";
@@ -11,9 +8,9 @@
     const modalStore = useModalStore(),
         newsStore = useNewsStore();
 
-    // const modalTestRef: Ref<HTMLElement | null> = ref(null);
+    const createNewsHandler = () => {
+        console.log("createNewsHandler 2222");
 
-    const createNewsHandler = (val) => {
         modalStore.openModal(
             "modal-form",
             {
@@ -24,66 +21,9 @@
                     name: "Отмена",
                 },
                 callback: (addPostData: any) => {
-                    // const postData = confirmed;
-
                     if (typeof addPostData === "object") {
-                        modalStore.openModal(
-                            "modal-confirm-delete",
-                            {
-                                // id: Date.now(),
-                                title: "Подтвердить создание поста?",
-                                message: `Новость будет опукликована немедленно!`,
-                                btnCancel: {
-                                    name: "Отмена",
-                                },
-                                btnSuccess: {
-                                    name: "Разместить",
-                                },
-                                callback: (confirmedData: boolean) => {
-                                    if (confirmedData) {
-                                        // Выполняется только после нажатия кнопки "Удалить" в модальном окне
-                                        console.log(`✅ Пользователь подтвердил создание поста!!`);
-                                        // console.log(addPostData);
-
-
-										const newPostData = {
-											author: "LocalStorage",
-											content: addPostData.content,
-											description: addPostData.description,
-											publishedAt: new Date().toISOString(),
-											source: {id: null, name: "Local add"},
-											title: addPostData.title,
-											url: "#",
-											urlToImage: "https://gizmodo.com/app/uploads/2024/04/0ddbd47a359dbefbb14c16d0ffe99a95.jpg",
-										}
-
-										const result = newsStore.addPostToList(newPostData);
-
-										if (result) {
-											modalStore.closeModal("modal-confirm-delete");
-                                        	modalStore.closeModal("modal-form");
-										}
-                                    } else {
-                                        console.log(`❌ Создание поста отменено пользователем.`);
-                                    }
-                                },
-                            },
-                            {
-                                modalClass: "min-w-md",
-                            },
-                        );
+                        confirmModalHandler(addPostData);
                     }
-
-                    // modalStore.closeModal("modal-form");
-
-                    // if (confirmed) {
-                    //     // Выполняется только после нажатия кнопки "Удалить" в модальном окне
-                    //     console.log(`✅ Пользователь подтвердил создание поста!!`);
-
-                    //     modalStore.closeModal("modal-confirm-delete");
-                    // } else {
-                    //     console.log(`❌ Создание поста отменено пользователем.`);
-                    // }
                 },
             },
             {
@@ -91,8 +31,52 @@
             },
         );
     };
-    const confirmHandler = (val) => {
+
+    const confirmModalHandler = (addPostData) => {
         // Модальное окно подтверждения
+        modalStore.openModal(
+            "modal-confirm-delete",
+            {
+                // id: Date.now(),
+                title: "Подтвердить создание поста?",
+                message: `Новость будет опукликована немедленно!`,
+                btnCancel: {
+                    name: "Отмена",
+                },
+                btnSuccess: {
+                    name: "Разместить",
+                },
+                callback: (confirmedData: boolean) => {
+                    if (confirmedData) {
+                        console.log(`✅ Пользователь подтвердил создание поста!!`);
+
+                        const newPostData = {
+                            author: "LocalStorage",
+                            content: addPostData.content,
+                            description: addPostData.description,
+                            publishedAt: new Date().toISOString(),
+                            source: { id: null, name: "Local add" },
+                            title: addPostData.title,
+                            url: "#",
+                            urlToImage:
+                                "https://gizmodo.com/app/uploads/2024/04/0ddbd47a359dbefbb14c16d0ffe99a95.jpg",
+                        };
+
+                        const result = newsStore.addPostToList(newPostData);
+
+                        if (result) {
+                            modalStore.closeModal("modal-confirm-delete");
+                            modalStore.closeModal("modal-form");
+                        }
+                    } else {
+                        console.log(`❌ Создание поста отменено пользователем.`);
+                    }
+                },
+            },
+            {
+                modalClass: "min-w-md",
+            },
+        );
     };
 
     onMounted(() => {
@@ -155,14 +139,10 @@
                     <li><router-link :to="{ name: 'news' }">News</router-link></li>
                     <li><router-link :to="{ name: 'ui-kit' }">UI</router-link></li>
                 </ul>
-                <!-- <UIButton @click="confirmHandler">Confirm</UIButton> -->
                 <UIButton @click="createNewsHandler">Create post</UIButton>
             </div>
         </div>
     </header>
-
-    <!-- <ModalForm :modal-class="'min-w-xl'"></ModalForm>
-    <ModalConfirmDelete :modal-class="'min-w-md'"></ModalConfirmDelete> -->
 </template>
 
 <style scoped lang="scss"></style>

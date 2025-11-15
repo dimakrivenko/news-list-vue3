@@ -4,7 +4,8 @@
 
     import type { FormField } from "@/types/Form";
     import { useModalStore } from "@/stores/Modal";
-    import BaseModal from "@/components/modals/BaseModal.vue";
+    // import BaseModal from "@/components/modals/BaseModal.vue";
+    import ModalBase from "@/components/modals/ModalBase.vue";
     import FormBase from "@/components/FormBase.vue";
 
     const modalStore = useModalStore();
@@ -69,13 +70,13 @@
 </script>
 
 <template>
-    <BaseModal :name="modalName" panel-class="max-w-md" @close="handleCancel">
+    <ModalBase :name="modalName" panel-class="max-w-md" @close="handleCancel">
         <template #default="{}">
             <div>
                 <div class="mb-3 text-center sm:text-left">
-                    <DialogTitle as="h3" class="text-xl font-semibold text-gray-900">{{
+                    <h3 class="text-xl font-semibold text-gray-900">{{
                         title
-                    }}</DialogTitle>
+                    }}</h3>
                 </div>
 
                 <FormBase
@@ -86,5 +87,5 @@
                     @cancelForm="handleCancel"></FormBase>
             </div>
         </template>
-    </BaseModal>
+    </ModalBase>
 </template>

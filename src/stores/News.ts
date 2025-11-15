@@ -101,58 +101,58 @@ export const useNewsStore = defineStore("news", () => {
                     title.value = val;
                 },
             },
-            {
-                key: "description",
-                type: "text",
-                label: "Краткое описание статьи",
-                value: "",
-                rules: Yup.string().required(),
-                callback: (val: string) => {
-                    const description = modalCreateNewsFormFields.value.find(
-                        (item) => item.key === "description",
-                    );
-                    description.value = val;
-                },
-            },
-            {
-                key: "content",
-                type: "textarea",
-                label: "Содержание статьи",
-                value: "",
-                rules: Yup.string()
-                    .required("Напиши текст статьи")
-                    .min(10, "Слишком коротко! Требуется минимум 10 символов."),
-                callback: (val: string) => {
-                    const content = modalCreateNewsFormFields.value.find(
-                        (item) => item.key === "content",
-                    );
-                    content.value = val;
-                },
-            },
-            {
-                key: "type",
-                type: "select",
-                label: "Тип статьи",
-                value: null,
-                selectedList: [
-                    {
-                        name: "Обычная",
-                        value: "regular",
-                    },
-                    {
-                        name: "Платная",
-                        value: "pay",
-                    },
-                ],
-                rules: Yup.object().required("Выберите тип статьи!"),
-                // rules: Yup.array().min(1, "Выберите хотя бы один тип статьи!"), // Если multiple: true
-                callback: (val: object) => {
-                    const type = modalCreateNewsFormFields.value.find(
-                        (item) => item.key === "type",
-                    );
-                    type.value = val;
-                },
-            },
+            // {
+            //     key: "description",
+            //     type: "text",
+            //     label: "Краткое описание статьи",
+            //     value: "",
+            //     rules: Yup.string().required(),
+            //     callback: (val: string) => {
+            //         const description = modalCreateNewsFormFields.value.find(
+            //             (item) => item.key === "description",
+            //         );
+            //         description.value = val;
+            //     },
+            // },
+            // {
+            //     key: "content",
+            //     type: "textarea",
+            //     label: "Содержание статьи",
+            //     value: "",
+            //     rules: Yup.string()
+            //         .required("Напиши текст статьи")
+            //         .min(10, "Слишком коротко! Требуется минимум 10 символов."),
+            //     callback: (val: string) => {
+            //         const content = modalCreateNewsFormFields.value.find(
+            //             (item) => item.key === "content",
+            //         );
+            //         content.value = val;
+            //     },
+            // },
+            // {
+            //     key: "type",
+            //     type: "select",
+            //     label: "Тип статьи",
+            //     value: null,
+            //     selectedList: [
+            //         {
+            //             name: "Обычная",
+            //             value: "regular",
+            //         },
+            //         {
+            //             name: "Платная",
+            //             value: "pay",
+            //         },
+            //     ],
+            //     rules: Yup.object().required("Выберите тип статьи!"),
+            //     // rules: Yup.array().min(1, "Выберите хотя бы один тип статьи!"), // Если multiple: true
+            //     callback: (val: object) => {
+            //         const type = modalCreateNewsFormFields.value.find(
+            //             (item) => item.key === "type",
+            //         );
+            //         type.value = val;
+            //     },
+            // },
         ];
 
         modalCreateNewsFormFields.value = fields;

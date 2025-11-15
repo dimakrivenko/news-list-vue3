@@ -1,7 +1,10 @@
 <script setup lang="ts">
     import Header from "@/components/Header.vue";
     import Footer from "@/components/Footer.vue";
-    import ModalsContainer from "@/components/Modals/ModalsContainer.vue";
+
+	import { ModalsContainer } from 'vue-final-modal'
+
+    import ModalsGroup from "@/components/Modals/ModalsGroup.vue";
     import { useAuthStore } from "@/stores/Auth";
     import { onMounted } from "vue";
 
@@ -20,6 +23,7 @@
         </section>
 
         <ModalsContainer />
+        <ModalsGroup />
     </main>
     <Footer />
 </template>

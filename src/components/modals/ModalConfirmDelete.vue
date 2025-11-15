@@ -2,7 +2,8 @@
     import { computed } from "vue";
     import { DialogTitle } from "@headlessui/vue";
     import { useModalStore } from "@/stores/Modal";
-    import BaseModal from "@/components/modals/BaseModal.vue";
+    // import BaseModal from "@/components/modals/BaseModal.vue";
+    import ModalBase from "@/components/modals/ModalBase.vue";
     import UIButton from "@/components/UI/UIButton.vue";
 
     const modalStore = useModalStore();
@@ -34,8 +35,6 @@
         btnCancelVariant = computed<string>(() => payload.value?.btnCancel?.variant || "secondary");
 
     const handleConfirm = () => {
-        console.log("handleConfirm 090000");
-
         const currentPayload = payload.value;
         if (currentPayload && currentPayload.callback) {
             currentPayload.callback(true);
@@ -47,8 +46,6 @@
         // modalStore.closeModal(modalName);
     };
     const handleCancel = () => {
-        console.log("modal confirm handleCancel");
-
         const currentPayload = payload.value;
         if (currentPayload && currentPayload.callback) {
             currentPayload.callback(false);
@@ -56,17 +53,16 @@
         if (modalStore.isModalOpen(modalName)) {
             modalStore.closeModalTop();
         }
-        // modalStore.closeModal(modalName);
     };
 </script>
 
 <template>
-    <BaseModal :name="modalName" panel-class="max-w-md" @close="handleCancel">
+    <ModalBase :name="modalName" panel-class="max-w-md" @close="handleCancel">
         <template #default="{}">
             <div class="mt-3 text-center sm:mt-0 sm:text-left">
-                <DialogTitle as="h3" class="text-lg font-semibold text-gray-900">{{
+                <h3 class="text-lg font-semibold text-gray-900">{{
                     title
-                }}</DialogTitle>
+                }}</h3>
                 <div v-if="message && message !== ''" class="mt-2">
                     <p class="text-md text-gray-500">
                         {{ message }}
@@ -83,5 +79,5 @@
                 }}</UIButton>
             </div>
         </template>
-    </BaseModal>
+    </ModalBase>
 </template>

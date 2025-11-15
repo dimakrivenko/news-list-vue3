@@ -2,8 +2,8 @@
     import { computed, defineAsyncComponent } from "vue";
     import { useModalStore } from "@/stores/Modal";
 
-    import ModalForm from "@/components/modals/ModalForm.vue";
-    import ModalConfirmDelete from "@/components/modals/ModalConfirmDelete.vue";
+    // import ModalForm from "@/components/modals/ModalForm.vue";
+    // import ModalConfirmDelete from "@/components/modals/ModalConfirmDelete.vue";
 
     const modalStore = useModalStore();
 
@@ -29,11 +29,5 @@
                 :payload="modal.payload"
                 v-bind="modal.props" />
         </template>
-        <!-- <ModalForm
-            :modal-class="'min-w-xl'"
-            v-if="modalStore.isModalOpen('modal-form')"></ModalForm>
-        <ModalConfirmDelete
-            :modal-class="'min-w-md'"
-            v-if="modalStore.isModalOpen('modal-confirm-delete')"></ModalConfirmDelete> -->
     </div>
 </template>
