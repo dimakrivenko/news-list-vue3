@@ -106,7 +106,7 @@ export const useNewsStore = defineStore("news", () => {
     };
 
     const initCreateNewsFields = () => {
-        const fields = [
+        const fields: FormField[] = [
             {
                 key: "title",
                 type: "text",
@@ -117,9 +117,9 @@ export const useNewsStore = defineStore("news", () => {
                     const title = modalCreateNewsFormFields.value.find(
                         (item: FormField) => item.key === "title",
                     );
-					if (title) {
-                    	title.value = val;
-					}
+                    if (title) {
+                        title.value = val;
+                    }
                 },
             },
             {

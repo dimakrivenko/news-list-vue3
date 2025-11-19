@@ -13,25 +13,27 @@
         rows = 4,
         callback,
     } = defineProps<{
-        fieldKey: string;
+        fieldKey?: string;
         type: string;
-        label: string;
-        modelValue: string | number;
+        label?: string;
+        modelValue: string | number | null | undefined;
         rows?: number;
         error?: string | undefined;
-        callback: (payload: any) => void;
+        callback?: (payload: any) => void;
     }>();
 
     const handleInput = (event: any) => {
         const value = event.target.value;
         emit("update:modelValue", value);
-        callback(value);
+        if (callback) {
+            callback(value);
+        }
     };
 </script>
 
 <template>
     <div class="ui-input">
-        <label :for="fieldKey" class="ui-input-label block text-gray-500 text-sm mb-1">
+        <label v-if="label" :for="fieldKey" class="ui-input-label block text-gray-500 text-sm mb-1">
             {{ label }}
         </label>
 

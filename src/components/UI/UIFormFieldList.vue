@@ -14,7 +14,7 @@
 <template>
     <div class="ui-form-field-list">
         <div v-for="(field, i) in fields" :key="i" class="ui-form-field-list-item mb-4">
-            <Field :name="field.key" :type="field.type" v-slot="{ field: veeField }">
+            <Field :name="field.key || ''" :type="field.type" v-slot="{ field: veeField }">
                 <div v-if="field.type === 'text'">
                     <UIInput
                         :field-key="field.key"
@@ -22,7 +22,7 @@
                         :type="field.type"
                         :label="field.label || ''"
                         :callback="field.callback"
-                        :error="errors[field.key]" />
+                        :error="field.key ? errors[field.key] : undefined" />
                 </div>
                 <div v-if="field.type === 'textarea'">
                     <UITextarea
@@ -31,7 +31,7 @@
                         :type="field.type"
                         :label="field.label || ''"
                         :callback="field.callback"
-                        :error="errors[field.key]" />
+                        :error="field.key ? errors[field.key] : undefined" />
                 </div>
                 <div v-if="field.type === 'select'">
                     <UISelect
@@ -47,7 +47,7 @@
                         :label="field.label || ''"
                         :callback="field.callback"
                         v-bind="veeField"
-                        :error="errors[field.key]" />
+                        :error="field.key ? errors[field.key] : undefined" />
                 </div>
             </Field>
             <!-- <span v-if="errors[field.key]" class="text-sm text-red-500 mt-1 block">

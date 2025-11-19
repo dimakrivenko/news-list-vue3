@@ -4,8 +4,8 @@
         height = 40,
         color = "hsl(228, 97%, 42%)",
     } = defineProps<{
-        width: number;
-        height: number;
+        width?: number;
+        height?: number;
         color: string;
     }>();
 </script>

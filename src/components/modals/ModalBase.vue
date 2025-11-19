@@ -10,7 +10,7 @@
             'vfm-modal-content relative max-w-4xl transform overflow-hidden rounded-lg bg-white px-8 py-6 text-left align-middle shadow-2xl dark:bg-gray-800',
 			props.modalContentClass,
         ]"
-        :content-style="[props.modalStyle]"
+        :content-style="props.modalStyle ? [props.modalStyle] : []"
         :overlay-class="['!fixed']"
         overlay-transition="vfm-fade"
         content-transition="vfm-scale-fade"
@@ -70,10 +70,10 @@
     };
 
     // Экшн для слота (позволяет закрыть модал изнутри)
-    const closeModalAction = () => {
+    // const closeModalAction = () => {
         // console.log(`closeModalAction for ${props.name}`);
         // modalStore.closeModal(props.name); // Вызываем закрытие по имени
-    };
+    // };
 
     const handleVfmUpdate = (value: boolean) => {
         if (!value && modalStore.isModalOpen(props.name)) {

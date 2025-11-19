@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import { debounce } from "lodash-es";
     import { ref, computed, watch, onMounted } from "vue";
+    import type { SelectValueMultiple } from "@/types/Form";
     import { useNewsStore } from "@/stores/News";
     import UISelect from "@/components/UI/UISelect.vue";
     import UIInput from "@/components/UI/UIInput.vue";
@@ -33,17 +34,24 @@
 
     const tags = computed(() => newsStore.tags);
 
-    const debouncedSearch = debounce(async (query) => {
+    const debouncedSearch = debounce(async (query: string) => {
         emit("search-value", query);
     }, 500);
 
-    const toggleShowLocalStorageHandler = (val) => {
+    const toggleShowLocalStorageHandler = (val: boolean) => {
         newsStore.toggleShowLocalStorage(!val);
     };
 
-    const changeSortBy = (val) => {
-        sortBy.value = val;
-        newsStore.setCurrentSortBy(val.value);
+    const changeSortBy = (val: SelectValueMultiple) => {
+        const selectedName = val.name ?? sortBy.value.name,
+            selectedValue = val.value ?? sortBy.value.value;
+
+        sortBy.value = {
+            name: selectedName,
+            value: selectedValue,
+        };
+
+        newsStore.setCurrentSortBy(selectedValue);
 
         newsStore.getList({
             query: newsStore.currentQ,
@@ -51,11 +59,11 @@
         });
     };
 
-    const changeQuery = (val) => {
+    const changeQuery = (val: string) => {
         debouncedSearch(val);
     };
 
-    const selectTag = (val) => {
+    const selectTag = (val: string) => {
         searchText.value = val;
 
         // sortBy.value =
@@ -77,7 +85,7 @@
     // );
 
     onMounted(() => {
-        searchText.value = newsStore.currentQ;
+        searchText.value = newsStore.currentQ || "";
 
         return () => {
             debouncedSearch.cancel();

@@ -6,18 +6,20 @@
     const emit = defineEmits(["update:modelValue"]);
 
     const { fieldKey, type, label, modelValue, callback } = defineProps<{
-        fieldKey: string;
+        fieldKey?: string;
         type: string;
-        label: string;
-        modelValue: string | number;
+        label?: string;
+        modelValue: string | number | null | undefined;
         error?: string | undefined;
-        callback: (payload: any) => void;
+        callback?: (payload: any) => void;
     }>();
 
     const handleInput = (event: any) => {
         const value = event.target.value;
         emit("update:modelValue", value);
-        callback(value);
+		if (callback) {
+        	callback(value);
+		}
     };
 </script>
 

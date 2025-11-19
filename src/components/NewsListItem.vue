@@ -22,7 +22,7 @@
     //     return "Title test 11";
     // });
 
-    const openPostHandler = (url) => {
+    const openPostHandler = (url: string) => {
         if (url) {
             console.log("openPostHandler 111");
 

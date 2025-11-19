@@ -9,6 +9,7 @@
 
     interface ModalPostInfoPayload {
         url?: string;
+		callback: (payload: any) => void;
     }
 
     const isLoading = ref(true);
@@ -32,7 +33,7 @@
         // modalStore.closeModal(modalName);
     };
 
-    const iframeIsLoaded = (e) => {
+    const iframeIsLoaded = (e: any) => {
         console.log("iframeIsLoaded 333");
         console.log(e);
         isLoading.value = false;
@@ -46,7 +47,7 @@
     <ModalBase :name="modalName" :modal-class="'max-w-md flex'" @close="handleCancel">
         <template #default="{}">
             <div class="post-content min-h-40 pt-8 pb-3">
-                <UILoader class="absolute top-0 left-0 right-0 bottom-0 m-auto" v-if="isLoading" color="#008236" />
+                <UILoader class="absolute top-0 left-0 right-0 bottom-0 m-auto" v-if="isLoading" :color="'#008236'" />
                 <iframe
                     :src="url"
                     frameborder="0"

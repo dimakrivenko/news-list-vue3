@@ -18,13 +18,14 @@
         closeOnSelect = true,
         searchable = false,
         allowEmpty = true,
+		options,
         callback,
     } = defineProps<{
-        fieldKey: string;
-        type: string;
-        label: string;
-        modelValue: SelectValueMultiple;
-        options: Array<SelectValueMultiple>;
+        fieldKey?: string;
+        type?: string;
+        label?: string;
+        modelValue?: SelectValueMultiple | SelectValueMultiple[] | null;
+        options?: SelectValueMultiple[] | null;
         placeholder?: string;
         multiple?: boolean;
         taggable?: boolean;
@@ -32,7 +33,7 @@
         searchable?: boolean;
         allowEmpty?: boolean;
         error?: string | undefined;
-        callback: (payload: any) => void;
+        callback?: (payload: any) => void;
     }>();
 
     const selectedValue = ref(modelValue);
@@ -64,7 +65,7 @@
         <Multiselect
             v-bind="attrs"
             v-model="selectedValue"
-            :options="options"
+            :options="options || []"
             :multiple="multiple"
             :taggable="taggable"
             :placeholder="placeholder"

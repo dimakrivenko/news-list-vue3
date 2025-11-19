@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import { computed } from "vue";
-    import type { FormField } from "@/types/Form";
+    import type { FormField, ButtonVariantElement } from "@/types/Form";
     import { useModalStore } from "@/stores/Modal";
     import ModalBase from "@/components/modals/ModalBase.vue";
     import FormBase from "@/components/FormBase.vue";
@@ -11,14 +11,8 @@
     interface ModalFormPayload {
         title?: string;
         fields?: FormField[];
-        btnSuccess?: {
-            name: string;
-            variant: string;
-        };
-        btnCancel?: {
-            name: string;
-            variant: string;
-        };
+        btnSuccess?: ButtonVariantElement;
+        btnCancel?: ButtonVariantElement;
         callback: (confirmed: boolean) => void;
     }
 
@@ -28,22 +22,23 @@
 
     const title = computed<string>(() => payload.value?.title || "Подтвердите действие"),
         formFields = computed<FormField[]>(() => payload.value?.fields || []),
-        btnSuccess = computed(() => {
+        btnSuccess = computed<ButtonVariantElement>(() => {
             return {
                 name: payload.value?.btnSuccess?.name || "Отправить",
                 variant: payload.value?.btnSuccess?.variant || "primary",
             };
         }),
-        btnCancel = computed(() => {
+        btnCancel = computed<ButtonVariantElement>(() => {
             return {
-                name: payload.value?.btnCancel?.name || null,
+                name: payload.value?.btnCancel?.name || undefined,
                 variant: payload.value?.btnCancel?.variant || "link",
             };
         });
 
+
     const handleSubmit = (values: any) => {
-		console.log("values q32132");
-		console.log(values);
+        console.log("values q32132");
+        console.log(values);
 
         if (payload.value && payload.value.callback && Object.keys(values).length > 0) {
             payload.value.callback(values);
@@ -67,9 +62,7 @@
         <template #default="{}">
             <div>
                 <div class="mb-3 text-center sm:text-left">
-                    <h3 class="text-xl font-semibold text-gray-900">{{
-                        title
-                    }}</h3>
+                    <h3 class="text-xl font-semibold text-gray-900">{{ title }}</h3>
                 </div>
 
                 <FormBase

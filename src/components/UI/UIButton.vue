@@ -8,19 +8,11 @@
     import { computed } from "vue";
     import { RouterLink } from "vue-router";
     import UILoader from "@/components/UI/UILoader.vue";
+	import type { ButtonVariant, ButtonSize, ButtonProps } from "@/types/Button";
 
-    type ButtonVariant = "primary" | "secondary" | "danger" | "ghost" | "link";
-    type ButtonSize = "sm" | "md" | "lg";
+    // type ButtonVariant = "primary" | "secondary" | "danger" | "ghost" | "link";
+    // type ButtonSize = "sm" | "md" | "lg";
 
-    interface ButtonProps {
-        variant?: ButtonVariant;
-        size?: ButtonSize;
-        disabled?: boolean;
-        loading?: boolean;
-        type?: "button" | "submit" | "reset";
-        to?: string | object;
-        href?: string;
-    }
 
     const props = withDefaults(defineProps<ButtonProps>(), {
         variant: "primary",
@@ -44,7 +36,7 @@
     const baseClasses =
         "inline-flex items-center font-medium rounded-lg px-5 py-2 transition duration-200 ease-in-out cursor-pointer cursor-pointer";
 
-    const variantClasses = computed(() => {
+    const variantClasses = computed<string>(() => {
         switch (props.variant) {
             case "secondary":
                 return "text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 active:bg-gray-200";
@@ -60,7 +52,7 @@
         }
     });
 
-    const sizeClasses = computed(() => {
+    const sizeClasses = computed<string>(() => {
         switch (props.size) {
             case "sm":
                 return "text-xs px-3 py-1.5";

@@ -10,7 +10,10 @@
     ],
     "compilerOptions": {
         "strict": false,
-
+        "paths": {
+            "@/*": ["./src/*"]
+        },
+        "esModuleInterop": false,
         "noImplicitAny": true, // Запрещает неявный 'any'
         "strictNullChecks": true, // Строгая проверка на null и undefined
         "strictBindCallApply": true, // Строгая проверка методов call, apply, bind

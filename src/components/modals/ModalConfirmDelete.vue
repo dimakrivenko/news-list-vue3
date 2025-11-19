@@ -2,6 +2,7 @@
     import { computed } from "vue";
     import { DialogTitle } from "@headlessui/vue";
     import { useModalStore } from "@/stores/Modal";
+	import type { ButtonVariant } from "@/types/Button";
     // import BaseModal from "@/components/modals/BaseModal.vue";
     import ModalBase from "@/components/modals/ModalBase.vue";
     import UIButton from "@/components/UI/UIButton.vue";
@@ -31,8 +32,17 @@
         message = computed<string>(() => payload.value?.message || ""),
         btnSuccessText = computed<string>(() => payload.value?.btnSuccess?.name || "Подтвердить"),
         btnCancelText = computed<string>(() => payload.value?.btnCancel?.name || "Отмена"),
-        btnSuccessVariant = computed<string>(() => payload.value?.btnSuccess?.variant || "primary"),
-        btnCancelVariant = computed<string>(() => payload.value?.btnCancel?.variant || "secondary");
+        // btnSuccessVariant = computed<string>(() => payload.value?.btnSuccess?.variant || "primary"),
+        // btnCancelVariant = computed<string>(() => payload.value?.btnCancel?.variant || "secondary");
+		btnSuccessVariant = computed<ButtonVariant>(
+            () => (payload.value?.btnSuccess?.variant || "primary") as ButtonVariant,
+        ),
+        btnCancelVariant = computed<ButtonVariant>(
+            () => (payload.value?.btnCancel?.variant || "secondary") as ButtonVariant,
+		);
+
+
+
 
     const handleConfirm = () => {
         const currentPayload = payload.value;

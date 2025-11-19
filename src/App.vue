@@ -2,16 +2,27 @@
     import Header from "@/components/Header.vue";
     import Footer from "@/components/Footer.vue";
 
-	import { ModalsContainer } from 'vue-final-modal'
+    import { ModalsContainer } from 'vue-final-modal'
 
-    import ModalsGroup from "@/components/Modals/ModalsGroup.vue";
+    import ModalsGroup from "@/components/modals/ModalsGroup.vue";
     import { useAuthStore } from "@/stores/Auth";
     import { onMounted } from "vue";
+
+    declare global {
+        interface Window {
+            globalVal1: string;
+        }
+    }
 
     const authStore = useAuthStore();
 
     onMounted(() => {
         authStore.setToken("ef5f9d90c7bf4147ab66c46eed650b78"); // Test
+
+		console.log('onMounted App');
+		console.log(window.globalVal1);
+
+
     });
 </script>
 

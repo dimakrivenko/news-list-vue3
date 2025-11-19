@@ -34,7 +34,7 @@
         );
     };
 
-    const confirmModalHandler = (addPostData) => {
+    const confirmModalHandler = (addPostData: Article) => {
         // Модальное окно подтверждения
         modalStore.openModal(
             "modal-confirm-delete",
